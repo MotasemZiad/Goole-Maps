@@ -10,17 +10,17 @@ class LocationInput extends StatefulWidget {
 class LocationInputState extends State<LocationInput> {
   String _previewImageUrl;
 
-  Future<void> _getCurrentUserLocation() async {
-    final locationData = await Location().getLocation();
-    final staticMapImageUrl =
-        LocationHelper.locationHelper.generateLocationPreviewImage(
-      latitude: locationData.latitude,
-      longitude: locationData.longitude,
-    );
-    setState(() {
-      _previewImageUrl = staticMapImageUrl;
-    });
-  }
+  // Future<void> _getCurrentUserLocation() async {
+  //   final locationData = await Location().getLocation();
+  //   final staticMapImageUrl =
+  //       LocationHelper.locationHelper.generateLocationPreviewImage(
+  //     latitude: locationData.latitude,
+  //     longitude: locationData.longitude,
+  //   );
+  //   setState(() {
+  //     _previewImageUrl = staticMapImageUrl;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class LocationInputState extends State<LocationInput> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton.icon(
-              onPressed: _getCurrentUserLocation,
+              onPressed: () {},
               icon: Icon(Icons.location_on),
               label: Text('Current Location'),
             ),

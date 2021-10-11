@@ -18,6 +18,20 @@ const tableColumnId = 'id';
 const tableColumnTitle = 'title';
 const tableColumnImage = 'image';
 
+// Google API
+const String apiBounds = 'bounds';
+const String apiNortheast = 'northeast';
+const String apiSouthwest = 'southwest';
+const String apiRoutes = 'routes';
+const String apiLatitude = 'lat';
+const String apiLongitude = 'lng';
+const String apiLegs = 'legs';
+const String apiDistance = 'distance';
+const String apiDuration = 'duration';
+const String apiText = 'text';
+const String apiOverviewPolyline = 'overview_polyline';
+const String apiPoints = 'points';
+
 // Certificate fingerprints:
 const sha1 = '3B:8E:21:CA:40:9B:1E:99:68:BE:58:9B:B2:62:16:35:3E:D7:3B:6F';
 const sha256 =

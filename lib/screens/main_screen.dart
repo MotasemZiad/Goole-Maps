@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:native_features/api/directions_repository.dart';
+import 'package:native_features/models/directions.dart';
 import 'package:native_features/utils/constants.dart';
 
 class MainScreen extends StatefulWidget {
@@ -15,6 +17,7 @@ class _MainScreenState extends State<MainScreen> {
   GoogleMapController _googleMapController;
   Marker _origin;
   Marker _destination;
+  Directions _info;
 
   @override
   void dispose() {
@@ -68,20 +71,66 @@ class _MainScreenState extends State<MainScreen> {
             ),
         ],
       ),
-      body: GoogleMap(
-        initialCameraPosition: _initialCameraPosition,
-        myLocationButtonEnabled: false,
-        zoomControlsEnabled: false,
-        onMapCreated: (controller) => _googleMapController = controller,
-        markers: {
-          if (_origin != null) _origin,
-          if (_destination != null) _destination,
-        },
-        onLongPress: _addMarker,
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          GoogleMap(
+            initialCameraPosition: _initialCameraPosition,
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
+            onMapCreated: (controller) => _googleMapController = controller,
+            markers: {
+              if (_origin != null) _origin,
+              if (_destination != null) _destination,
+            },
+            polylines: {
+              if (_info != null)
+                Polyline(
+                  polylineId: const PolylineId('overview_polyline'),
+                  color: Colors.red,
+                  width: 5,
+                  points: _info.polylinePoints
+                      .map((e) => LatLng(e.latitude, e.longitude))
+                      .toList(),
+                ),
+            },
+            onLongPress: _addMarker,
+          ),
+          if (_info != null)
+            Positioned(
+              top: 20.0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 6.0,
+                  horizontal: 12.0,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.yellowAccent,
+                  borderRadius: BorderRadius.circular(20.0),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0, 2.0),
+                      blurRadius: 6.0,
+                    ),
+                  ],
+                ),
+                child: Text(
+                  '${_info.totalDistance}, ${_info.totalDuration}',
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _googleMapController.animateCamera(
-          CameraUpdate.newCameraPosition(_initialCameraPosition),
+          _info != null
+              ? CameraUpdate.newLatLngBounds(_info.bounds, 100.0)
+              : CameraUpdate.newCameraPosition(_initialCameraPosition),
         ),
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
@@ -90,7 +139,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _addMarker(LatLng position) {
+  void _addMarker(LatLng position) async {
     if (_origin == null || (_origin != null && _destination != null)) {
       // Origin is not set OR Origin/Destination are both set
       // Set Origin
@@ -105,6 +154,9 @@ class _MainScreenState extends State<MainScreen> {
         );
         // Reset Destination
         _destination = null;
+
+        // Rest info
+        _info = null;
       });
     } else {
       // Origin is already set
@@ -118,6 +170,15 @@ class _MainScreenState extends State<MainScreen> {
           ),
           position: position,
         );
+      });
+
+      // Get Directions
+      final directions = await DirectionsRepository().getDirections(
+        origin: _origin.position,
+        destination: position,
+      );
+      setState(() {
+        _info = directions;
       });
     }
   }
