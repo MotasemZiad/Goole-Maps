@@ -3,6 +3,7 @@
    <application
         android:label="native_features"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -39,6 +40,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
             <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyA2JdyCSSHppFb4233BpYPQ7UvsrPUu5EI"/>
+               android:value="AIzaSyCVpX9m7iV8ZR7084al2z7GpzpEOLoVor8"/>
     </application>
 </manifest>

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:native_features/providers/user_places.dart';
 import 'package:native_features/screens/add_place_screen.dart';
+import 'package:native_features/screens/place_details_screen.dart';
 import 'package:native_features/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -53,8 +54,17 @@ class PlacesListScreen extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
+                                    subtitle: Text(
+                                      userPlacesProvider
+                                          .items[index].location.address,
+                                    ),
                                     onTap: () {
                                       // Go to Details Screen
+                                      Navigator.of(context).pushNamed(
+                                        PlaceDetailsScreen.routeName,
+                                        arguments:
+                                            userPlacesProvider.items[index].id,
+                                      );
                                     },
                                   ),
                                 ),

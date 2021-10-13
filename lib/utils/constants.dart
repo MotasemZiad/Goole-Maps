@@ -17,6 +17,9 @@ const tableName = 'places';
 const tableColumnId = 'id';
 const tableColumnTitle = 'title';
 const tableColumnImage = 'image';
+const tableColumnLocationLatitude = 'loc_lat';
+const tableColumnLocationLongitude = 'loc_lng';
+const tableColumnAddress = 'address';
 
 // Google API
 const String apiBounds = 'bounds';

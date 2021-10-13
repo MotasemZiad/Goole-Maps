@@ -5,8 +5,7 @@ import 'package:native_features/models/directions.dart';
 import './.env.dart';
 
 class DirectionsRepository {
-  static const String _baseUrl =
-      'https://maps.googleapis.com/maps/api/directions/json?';
+  static const String _baseUrl = 'https://maps.googleapis.com/maps/api/directions/json?';
   final Dio _dio;
   DirectionsRepository({Dio dio}) : _dio = dio ?? Dio();
 

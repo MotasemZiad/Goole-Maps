@@ -16,7 +16,10 @@ class DbHelper {
         CREATE TABLE $tableName(
           $tableColumnId TEXT PRIMARY KEY,
           $tableColumnTitle TEXT NOT NULL,
-          $tableColumnImage TEXT
+          $tableColumnImage TEXT,
+          $tableColumnLocationLatitude REAL,
+          $tableColumnLocationLongitude REAL,
+          $tableColumnAddress TEXT
         );
         ''');
       },
